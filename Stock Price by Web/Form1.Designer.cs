@@ -52,8 +52,8 @@
             this.txtStopLossRate = new System.Windows.Forms.TextBox();
             this.lblError = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnScript = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
@@ -248,7 +248,6 @@
             // 
             // panel3
             // 
-            this.panel3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel3.AutoSize = true;
             this.panel3.Controls.Add(this.btnScript);
             this.panel3.Controls.Add(this.lblError);
@@ -273,14 +272,11 @@
             this.panel3.Controls.Add(this.label6);
             this.panel3.Controls.Add(this.label7);
             this.panel3.Controls.Add(this.label8);
-            this.panel3.Location = new System.Drawing.Point(12, 12);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(396, 440);
+            this.panel3.Size = new System.Drawing.Size(385, 398);
             this.panel3.TabIndex = 0;
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.ContainerControl = this;
             // 
             // btnScript
             // 
@@ -292,11 +288,15 @@
             this.btnScript.UseVisualStyleBackColor = true;
             this.btnScript.Click += new System.EventHandler(this.btnScript_Click);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(503, 543);
+            this.ClientSize = new System.Drawing.Size(385, 398);
             this.Controls.Add(this.panel3);
             this.Name = "Form1";
             this.Text = "Stock Price Calculator";
