@@ -89,7 +89,7 @@ namespace Stock_Price_by_Web
                     string price = data.Substring(data.IndexOf("<div class=\"quote__price\">") + (keyword.Length * 2), 40);
                     int fPrice = price.IndexOf('<');
                      finalPrice = price.Substring(0, fPrice); //price in rupee symbol
-                    finalPrice = finalPrice.Substring(3);                    
+                    //finalPrice = finalPrice.Substring(3);                    
                     return finalPrice;
                 }
                 else
