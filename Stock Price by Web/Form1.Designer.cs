@@ -275,7 +275,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(385, 398);
+            this.panel3.Size = new System.Drawing.Size(385, 387);
             this.panel3.TabIndex = 0;
             // 
             // btnScript
@@ -296,7 +296,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(385, 398);
+            this.ClientSize = new System.Drawing.Size(385, 387);
             this.Controls.Add(this.panel3);
             this.Name = "Form1";
             this.Text = "Stock Price Calculator";
