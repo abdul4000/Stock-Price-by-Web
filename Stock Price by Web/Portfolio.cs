@@ -8,27 +8,25 @@ using System.Threading.Tasks;
 
 namespace Stock_Price_by_Web
 {
-    public class Stocks
+   public class Portfolio
     {
+        public int quantity;
         public string name;
         public string price;
-        public string high;
-        public string low;
-        public string support;
-        public string resistance;
-        public string trend;
-        public int quantity;
         public string avgPrice;
+        public List<Stocks> Stocks;
+        
 
 
-        public Stocks(string name, string price)
+
+        public Portfolio(string name, string price)
         {
             this.name = name;
             this.price = price;
         }
-        public Stocks()
+        public Portfolio()
         {
-
+            Stocks = new List<Stocks>();
         }
 
         public void GetStockPriceFromFile()
