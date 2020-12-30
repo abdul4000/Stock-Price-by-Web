@@ -16,6 +16,7 @@ namespace Stock_Price_by_Web
     {
         Dictionary<string, string> target = new Dictionary<string, string>(); // store comma seperated script and target price on startup
         Dictionary<string, string> checkPrice = new Dictionary<string, string>(); // store comma seperated script and current price on startup
+        
         public Form1()
         {
             InitializeComponent();
@@ -23,18 +24,39 @@ namespace Stock_Price_by_Web
 
         private void btnGetPrice_Click(object sender, EventArgs e)
         {
-            lblError.Visible = false;
-           
-            if (!String.IsNullOrEmpty(txtSymbol.Text))
+            //lblError.Visible = false;
+
+            //if (!String.IsNullOrEmpty(txtSymbol.Text))
+            //{
+            //    String urlAddress = @"https://dps.psx.com.pk/company/" + txtSymbol.Text.ToUpper();
+
+            //    txtPrice.Text = GetPrice(urlAddress);
+
+
+
+
+            //}
+            Stocks stocks = new Stocks();
+            List<string> name = new List<string>();
+            name.Add("MLCF");
+            name.Add("TRG");
+            name.Add("GGGL");
+            name.Add("LUCK");
+            name.Add("EFERT");
+            
+            Dictionary<string,string> result= stocks.FetchPriceFromWeb(name);
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var item in result)
             {
-                String urlAddress = @"https://dps.psx.com.pk/company/" + txtSymbol.Text.ToUpper();
-
-                txtPrice.Text = GetPrice(urlAddress);
-
-
-
-
+                sb.Append("\nName = ");
+                sb.Append(item.Key);
+                sb.Append("\nPrice = ");
+                sb.Append(item.Value);
             }
+            MessageBox.Show(sb.ToString());
+            
         }
 
         #region helper methods
