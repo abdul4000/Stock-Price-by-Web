@@ -14,17 +14,19 @@ namespace Stock_Price_by_Web
 {
     public partial class Form1 : Form
     {
-        Dictionary<string, string> target = new Dictionary<string, string>(); // store comma seperated script and target price on startup
-        Dictionary<string, string> checkPrice = new Dictionary<string, string>(); // store comma seperated script and current price on startup
+        public Dictionary<string, string> target = new Dictionary<string, string>(); // store comma seperated script and target price on startup
+        public Dictionary<string, string> checkPrice = new Dictionary<string, string>(); // store comma seperated script and current price on startup
+        public Portfolio portfolio;
         public Form1()
         {
             InitializeComponent();
+            portfolio = new Portfolio();
         }
 
         private void btnGetPrice_Click(object sender, EventArgs e)
         {
             lblError.Visible = false;
-           
+
             if (!String.IsNullOrEmpty(txtSymbol.Text))
             {
                 String urlAddress = @"https://dps.psx.com.pk/company/" + txtSymbol.Text.ToUpper();
@@ -35,6 +37,27 @@ namespace Stock_Price_by_Web
 
 
             }
+            //Stocks stocks = new Stocks();
+            //List<string> name = new List<string>();
+            //name.Add("MLCF");
+            //name.Add("TRG");
+            //name.Add("GGGL");
+            //name.Add("LUCK");
+            //name.Add("EFERT");
+            
+            //Dictionary<string,string> result= stocks.FetchPriceFromWeb(name);
+
+            //StringBuilder sb = new StringBuilder();
+
+            //foreach (var item in result)
+            //{
+            //    sb.Append("\nName = ");
+            //    sb.Append(item.Key);
+            //    sb.Append("\nPrice = ");
+            //    sb.Append(item.Value);
+            //}
+            //MessageBox.Show(sb.ToString());
+            
         }
 
         #region helper methods
@@ -109,7 +132,7 @@ namespace Stock_Price_by_Web
 
         private void ClearAllTextBoxes()
         {
-            txtLotSize.Text = txtNoOfShares.Text = txtPrice.Text = txtSellRate.Text = txtStopLossRate.Text = "";
+            lblProfit.Text= lblLoss.Text= txtLotSize.Text = txtNoOfShares.Text = txtPrice.Text = txtSellRate.Text = txtStopLossRate.Text = "";
             lblError.Visible = false;
         }
         #endregion
@@ -127,7 +150,9 @@ namespace Stock_Price_by_Web
             if (ValidateInput())
             {
                 double amout = System.Convert.ToDouble(txtAmountToInvestOrig.Text);
-                double price = System.Convert.ToDouble(txtPrice.Text.Substring(txtPrice.Text.IndexOf("Rs.") + 3));
+                double price = System.Convert.ToDouble(txtPrice.Text);
+               // double price = System.Convert.ToDouble(txtPrice.Text.Substring(txtPrice.Text.IndexOf("Rs.") + 3));
+
                 int lotSize = System.Convert.ToInt32(txtLotSize.Text);
                 double profitPercent = System.Convert.ToUInt32(txtProfitPercentage.Text);
                 double RiskPercent = System.Convert.ToUInt32(txtRiskPercentage.Text);
@@ -149,6 +174,10 @@ namespace Stock_Price_by_Web
 
                     double stopLoss = (actualAmount - (actualAmount / 100) * RiskPercent) / noOfShares;
                     txtStopLossRate.Text = stopLoss.ToString();
+
+                    lblLoss.Text = ((price - stopLoss) * noOfShares).ToString();
+                    lblProfit.Text = ((SellRate - price) * noOfShares).ToString();
+
                 }
 
             }
@@ -205,6 +234,15 @@ namespace Stock_Price_by_Web
                 errorProvider1.Clear();
             }
         }
+        public void calculateTotalEquity()
+        {
+            double equity = 0;
+            for (int i = 0; i < portfolio.Stocks.Count; i++)
+            {
+                equity += System.Convert.ToInt32( portfolio.Stocks[i].quantity) * System.Convert.ToDouble( portfolio.Stocks[i].price);
+            }
+            MessageBox.Show("Net worth is Rs." + equity);
+        }
 
         private void btnScript_Click(object sender, EventArgs e)
         {
@@ -218,6 +256,7 @@ namespace Stock_Price_by_Web
             if (!string.IsNullOrEmpty(filePath))
             {
                 string[] scripts;
+                Stocks tempStock = new Stocks();
 
                  scripts = File.ReadAllLines(filePath);
 
@@ -227,13 +266,24 @@ namespace Stock_Price_by_Web
                     if (!string.IsNullOrEmpty(item))
                     {
                         var scr = item.Split(',');
+                        if(scr.Length==2)
+                        {
+                            String urlAddress = @"https://dps.psx.com.pk/company/" + scr[0].ToUpper();
+                            //if(!checkPrice.ContainsKey(scr[0]))
+                            tempStock.name = scr[0].ToUpper();
+                            tempStock.price = GetPrice(urlAddress);
+                            tempStock.quantity =  int.Parse(scr[1]);
+                            
+                            //checkPrice.Add(scr[0].ToUpper(), GetPrice(urlAddress));
+                            portfolio.Stocks.Add(tempStock);
+                        }
 
-                        String urlAddress = @"https://dps.psx.com.pk/company/" + scr[0].ToUpper();
-                        checkPrice.Add(scr[0].ToUpper(), GetPrice(urlAddress));
+                        
                        
 
                     }
                 }
+                calculateTotalEquity();
                 
             }
         }
