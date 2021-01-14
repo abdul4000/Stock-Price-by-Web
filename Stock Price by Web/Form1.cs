@@ -132,7 +132,7 @@ namespace Stock_Price_by_Web
 
         private void ClearAllTextBoxes()
         {
-            txtLotSize.Text = txtNoOfShares.Text = txtPrice.Text = txtSellRate.Text = txtStopLossRate.Text = "";
+            lblProfit.Text= lblLoss.Text= txtLotSize.Text = txtNoOfShares.Text = txtPrice.Text = txtSellRate.Text = txtStopLossRate.Text = "";
             lblError.Visible = false;
         }
         #endregion
@@ -174,6 +174,10 @@ namespace Stock_Price_by_Web
 
                     double stopLoss = (actualAmount - (actualAmount / 100) * RiskPercent) / noOfShares;
                     txtStopLossRate.Text = stopLoss.ToString();
+
+                    lblLoss.Text = ((price - stopLoss) * noOfShares).ToString();
+                    lblProfit.Text = ((SellRate - price) * noOfShares).ToString();
+
                 }
 
             }
